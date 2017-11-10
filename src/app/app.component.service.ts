@@ -1,4 +1,4 @@
-const baseURL:string = 'http://localhost:3002'
+const baseURL:string = 'http://localhost:3002/json'
 const allStationApi:string = 'getallstations';
 
 import { Injectable } from '@angular/core';

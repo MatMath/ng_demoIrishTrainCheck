@@ -2,12 +2,15 @@ const express = require('express');
 const cors = require('cors');
 const http = require('http');
 const xml2js = require('xml2js');
+const path = require('path');
 const parser = new xml2js.Parser({explicitArray : false});
 
+const distFile = path.join(__dirname, '../dist/');
 const app = express();
 app.use(cors());
+app.use(express.static(distFile));
 
-app.get('/getallstations', (req, res) => {
+app.get('/json/getallstations', (req, res) => {
   let data = '';
   http.get('http://api.irishrail.ie/realtime/realtime.asmx/getAllStationsXML', (response) => {
      if (response.statusCode >= 200 && response.statusCode < 400) {
@@ -20,10 +23,9 @@ app.get('/getallstations', (req, res) => {
      }
    })
 })
-app.get('/stationtraffic', (req, res) => {
+app.get('/json/stationtraffic', (req, res) => {
   let data = '';
   const { StationCode, NumMins } = req.query;
-  const getData = querystring.stringify({ StationCode, NumMins });
   const stringUrl = `http://api.irishrail.ie/realtime/realtime.asmx/getStationDataByCodeXML_WithNumMins?StationCode=${StationCode}&NumMins=${NumMins}`;
   http.get(stringUrl, (response) => {
      if (response.statusCode >= 200 && response.statusCode < 400) {
@@ -40,8 +42,8 @@ app.get('/stationtraffic', (req, res) => {
   })
 })
 app.get('/', (req, res) => {
-  res.send('Hitting something')
-})
+  res.sendFile(distFile);
+});
 
 app.use((err, req, res, next) => {
   res.status(err.status || 500);

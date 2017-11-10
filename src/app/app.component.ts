@@ -55,6 +55,9 @@ export class AppComponent implements OnInit {
       this.trainList = data;
       this.notification.remove(pleaseWait.id);
     })
-    .catch(() => this.notification.error( 'Error', 'Getting the Station train'));
+    .catch(() => {
+      this.notification.remove(pleaseWait.id);
+      this.notification.error( 'Error', 'Getting the Station train');
+    });
   }
 }
