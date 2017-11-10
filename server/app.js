@@ -14,7 +14,7 @@ app.get('/getallstations', (req, res) => {
        response.on('data', (data_) => { data += data_.toString(); });
        response.on('end', () => {
          parser.parseString(data, (err, result) => {
-           res.json(result);
+           res.json(result.ArrayOfObjStation.objStation);
          });
        });
      }
