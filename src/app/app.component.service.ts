@@ -4,7 +4,7 @@ const allStationApi:string = 'getallstations';
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 
-import { StationList } from '../classDefinition';
+import { StationList, StationTrain } from '../classDefinition';
 
 import 'rxjs/add/operator/toPromise';
 
@@ -14,6 +14,16 @@ export class ComponentService {
   constructor(private http: HttpClient) { }
 
   getStationList(): Promise<Array<StationList>> {
+    return this.http
+      .get(this.allStation)
+      .toPromise()
+      .then((response) => {
+        return response;
+      })
+      .catch(this.handleError);
+  }
+
+  getStationTrain(): Promise<Array<StationTrain>> {
     return this.http
       .get(this.allStation)
       .toPromise()

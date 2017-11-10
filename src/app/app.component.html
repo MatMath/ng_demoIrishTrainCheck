@@ -5,3 +5,18 @@
 <div>
   You made it here! Now time to leave (Catch your train ;)
 </div>
+<div class="">
+  <h2>Current station: <span *ngIf="currentStation">{{currentStation.StationDesc}}</span></h2>
+</div>
+<div class="row">
+  <div class="col-xs-4">
+    <div class="row" *ngFor="let station of stationList">
+      <span (click)="setStationTo(station)">{{station.StationDesc}}</span>
+    </div>
+  </div>
+  <div class="col-xs-8">
+    <div class="row" *ngFor="let train of trainList">
+      {{train.Origin}} -> {{train.Destination}} : {{train.Expdepart}}
+    </div>
+  </div>
+</div>

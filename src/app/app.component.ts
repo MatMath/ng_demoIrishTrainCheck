@@ -1,7 +1,9 @@
+// Core
 import { Component, OnInit } from '@angular/core';
 import { ComponentService } from './app.component.service';
 
-import { StationList } from '../classDefinition';
+// Created
+import { StationList, StationTrain } from '../classDefinition';
 
 @Component({
   selector: 'app-root',
@@ -10,6 +12,9 @@ import { StationList } from '../classDefinition';
 })
 export class AppComponent implements OnInit {
   stationList: StationList[];
+  currentStation: StationList;
+  trainList: StationTrain[];
+
   constructor(
     private componentService: ComponentService,
   ){}
@@ -17,9 +22,26 @@ export class AppComponent implements OnInit {
   ngOnInit(): void {
     this.componentService.getStationList()
     .then((data) => {
-      console.log('RECEIVED:', data)
       this.stationList = data;
     })
     .catch(console.log);
+
+    if (this.currentStation) {
+      this.componentService.getStationTrain()
+      .then((data) => {
+        this.trainList = data;
+      })
+      .catch(console.log);
+    }
+  }
+
+  setStationTo(station:StationList) {
+    console.log('Selecting:', station);
+    this.currentStation = station;
+    this.getStationTrain(station);
+  }
+
+  getStationTrain(station) {
+    console.log('Get the station', station);
   }
 }

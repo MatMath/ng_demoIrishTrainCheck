@@ -20,6 +20,20 @@ app.get('/getallstations', (req, res) => {
      }
    })
 })
+app.get('/stationtraffic', (req, res) => {
+  let data = '';
+  // http://api.irishrail.ie/realtime/realtime.asmx/getStationDataByCodeXML_WithNumMins?StationCode=mhide&NumMins=20
+  http.get('http://api.irishrail.ie/realtime/realtime.asmx/getStationDataByCodeXML_WithNumMins?StationCode=mhide&NumMins=20', (response) => {
+     if (response.statusCode >= 200 && response.statusCode < 400) {
+       response.on('data', (data_) => { data += data_.toString(); });
+       response.on('end', () => {
+         parser.parseString(data, (err, result) => {
+           res.json(result.ArrayOfObjStationData.objStationData);
+         });
+       });
+     }
+  })
+})
 app.get('/', (req, res) => {
   res.send('Hitting something')
 })
