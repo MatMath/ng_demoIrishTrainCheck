@@ -14,7 +14,7 @@ app.get('/getallstations', (req, res) => {
        response.on('data', (data_) => { data += data_.toString(); });
        response.on('end', () => {
          parser.parseString(data, (err, result) => {
-           return res.json(result.ArrayOfObjStation.objStation);
+           return res.json(result.ArrayOfObjStation.objStation.sort((a,b) => a.StationDesc.localeCompare(b.StationDesc)));
          });
        });
      }
@@ -22,9 +22,8 @@ app.get('/getallstations', (req, res) => {
 })
 app.get('/stationtraffic', (req, res) => {
   let data = '';
-
   const { StationCode, NumMins } = req.query;
-  // http://api.irishrail.ie/realtime/realtime.asmx/getStationDataByCodeXML_WithNumMins?StationCode=mhide&NumMins=20
+  const getData = querystring.stringify({ StationCode, NumMins });
   const stringUrl = `http://api.irishrail.ie/realtime/realtime.asmx/getStationDataByCodeXML_WithNumMins?StationCode=${StationCode}&NumMins=${NumMins}`;
   http.get(stringUrl, (response) => {
      if (response.statusCode >= 200 && response.statusCode < 400) {
