@@ -22,13 +22,20 @@ app.get('/getallstations', (req, res) => {
 })
 app.get('/stationtraffic', (req, res) => {
   let data = '';
+
+  const { StationCode, NumMins } = req.query;
   // http://api.irishrail.ie/realtime/realtime.asmx/getStationDataByCodeXML_WithNumMins?StationCode=mhide&NumMins=20
-  http.get('http://api.irishrail.ie/realtime/realtime.asmx/getStationDataByCodeXML_WithNumMins?StationCode=mhide&NumMins=20', (response) => {
+  const stringUrl = `http://api.irishrail.ie/realtime/realtime.asmx/getStationDataByCodeXML_WithNumMins?StationCode=${StationCode}&NumMins=${NumMins}`;
+  http.get(stringUrl, (response) => {
      if (response.statusCode >= 200 && response.statusCode < 400) {
        response.on('data', (data_) => { data += data_.toString(); });
        response.on('end', () => {
          parser.parseString(data, (err, result) => {
-           res.json(result.ArrayOfObjStationData.objStationData);
+           console.log('Result: ', result.ArrayOfObjStationData, result.ArrayOfObjStationData.objStationData);
+           if (result.ArrayOfObjStationData && result.ArrayOfObjStationData.objStationData) {
+             res.json(result.ArrayOfObjStationData.objStationData);
+           }
+           res.json([]);
          });
        });
      }

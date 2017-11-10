@@ -2,7 +2,7 @@ const baseURL:string = 'http://localhost:3002'
 const allStationApi:string = 'getallstations';
 
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 
 import { StationList, StationTrain } from '../classDefinition';
 
@@ -25,9 +25,11 @@ export class ComponentService {
   }
 
   getStationTrain(station): Promise<Array<StationTrain>> {
-    // TODO: Fix the Endpoint by passing params
+    let Params = new HttpParams();
+    Params = Params.append('StationCode', station.StationCode);
+    Params = Params.append('NumMins', '20');
     return this.http
-      .get(this.stationtraffic)
+      .get(this.stationtraffic, { params: Params })
       .toPromise()
       .then((response) => {
         if (Array.isArray(response)) {
