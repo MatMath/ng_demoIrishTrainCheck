@@ -14,7 +14,7 @@ app.get('/getallstations', (req, res) => {
        response.on('data', (data_) => { data += data_.toString(); });
        response.on('end', () => {
          parser.parseString(data, (err, result) => {
-           res.json(result.ArrayOfObjStation.objStation);
+           return res.json(result.ArrayOfObjStation.objStation);
          });
        });
      }
@@ -31,11 +31,10 @@ app.get('/stationtraffic', (req, res) => {
        response.on('data', (data_) => { data += data_.toString(); });
        response.on('end', () => {
          parser.parseString(data, (err, result) => {
-           console.log('Result: ', result.ArrayOfObjStationData, result.ArrayOfObjStationData.objStationData);
            if (result.ArrayOfObjStationData && result.ArrayOfObjStationData.objStationData) {
-             res.json(result.ArrayOfObjStationData.objStationData);
+             return res.json(result.ArrayOfObjStationData.objStationData);
            }
-           res.json([]);
+           return res.json([]);
          });
        });
      }
@@ -44,4 +43,13 @@ app.get('/stationtraffic', (req, res) => {
 app.get('/', (req, res) => {
   res.send('Hitting something')
 })
+
+app.use((err, req, res, next) => {
+  res.status(err.status || 500);
+  return res.json({
+    message: err.message,
+    error: {},
+    title: 'error',
+  });
+});
 module.exports = app;
