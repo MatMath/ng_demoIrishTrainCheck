@@ -2,7 +2,7 @@ const express = require('express');
 const cors = require('cors');
 const http = require('http');
 const xml2js = require('xml2js');
-const parser = new xml2js.Parser();
+const parser = new xml2js.Parser({explicitArray : false});
 
 const app = express();
 app.use(cors());
