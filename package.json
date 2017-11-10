@@ -28,6 +28,7 @@
     "express": "^4.16.2",
     "font-awesome": "^4.7.0",
     "rxjs": "^5.5.2",
+    "tslint-config-airbnb": "^5.3.0",
     "xml2js": "^0.4.19",
     "zone.js": "^0.8.14"
   },
