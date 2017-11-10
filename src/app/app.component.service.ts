@@ -1,17 +1,17 @@
-const baseURL:string = 'http://localhost:3002/json'
-const allStationApi:string = 'getallstations';
 
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 
 import { StationList, StationTrain } from '../classDefinition';
+import { AppSettings } from './config';
 
 import 'rxjs/add/operator/toPromise';
 
 @Injectable()
 export class ComponentService {
-  private allStation = `${baseURL}/${allStationApi}`;
-  private stationtraffic = `${baseURL}/stationtraffic`;
+  private allStationApi:string = 'getallstations';
+  private allStation = `${AppSettings.API_ENDPOINT}/${this.allStationApi}`;
+  private stationtraffic = `${AppSettings.API_ENDPOINT}/stationtraffic`;
   constructor(private http: HttpClient) { }
 
   getStationList(): Promise<Array<StationList>> {
