@@ -27,7 +27,7 @@ export class AppComponent implements OnInit {
     .catch(console.log);
 
     if (this.currentStation) {
-      this.componentService.getStationTrain()
+      this.componentService.getStationTrain(this.currentStation)
       .then((data) => {
         this.trainList = data;
       })
@@ -43,5 +43,10 @@ export class AppComponent implements OnInit {
 
   getStationTrain(station) {
     console.log('Get the station', station);
+    this.componentService.getStationTrain(station)
+    .then((data) => {
+      this.trainList = data;
+    })
+    .catch(console.log);
   }
 }

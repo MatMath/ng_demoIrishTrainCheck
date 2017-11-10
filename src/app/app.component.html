@@ -16,7 +16,7 @@
   </div>
   <div class="col-xs-8">
     <div class="row" *ngFor="let train of trainList">
-      {{train.Origin}} -> {{train.Destination}} : {{train.Expdepart}}
+      {{train.Origin}} -> {{train.Destination}} : <span *ngIf='train.Expdepart == "00:00"'>Stoping</span> <span *ngIf='train.Expdepart != "00:00"'>{{train.Expdepart}}</span>
     </div>
   </div>
 </div>

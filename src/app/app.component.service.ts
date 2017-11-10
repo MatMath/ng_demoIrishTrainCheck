@@ -11,6 +11,7 @@ import 'rxjs/add/operator/toPromise';
 @Injectable()
 export class ComponentService {
   private allStation = `${baseURL}/${allStationApi}`;
+  private stationtraffic = `${baseURL}/stationtraffic`;
   constructor(private http: HttpClient) { }
 
   getStationList(): Promise<Array<StationList>> {
@@ -23,12 +24,16 @@ export class ComponentService {
       .catch(this.handleError);
   }
 
-  getStationTrain(): Promise<Array<StationTrain>> {
+  getStationTrain(station): Promise<Array<StationTrain>> {
+    // TODO: Fix the Endpoint by passing params
     return this.http
-      .get(this.allStation)
+      .get(this.stationtraffic)
       .toPromise()
       .then((response) => {
-        return response;
+        if (Array.isArray(response)) {
+          return response;
+        }
+        return [response];
       })
       .catch(this.handleError);
   }
