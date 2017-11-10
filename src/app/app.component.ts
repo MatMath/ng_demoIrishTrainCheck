@@ -1,6 +1,7 @@
 // Core
 import { Component, OnInit } from '@angular/core';
 import { ComponentService } from './app.component.service';
+import { NotificationsService } from 'angular2-notifications';
 
 // Created
 import { StationList, StationTrain } from '../classDefinition';
@@ -15,8 +16,15 @@ export class AppComponent implements OnInit {
   currentStation: StationList;
   trainList: StationTrain[];
 
+  public options = {
+    position: ["top", "left"],
+    timeOut: 0,
+    lastOnBottom: true,
+  };
+
   constructor(
     private componentService: ComponentService,
+    private notification: NotificationsService,
   ){}
 
   ngOnInit(): void {
@@ -24,29 +32,29 @@ export class AppComponent implements OnInit {
     .then((data) => {
       this.stationList = data;
     })
-    .catch(console.log);
+    .catch(() => this.notification.error( 'Error', 'Getting the Station list'));
 
     if (this.currentStation) {
       this.componentService.getStationTrain(this.currentStation)
       .then((data) => {
         this.trainList = data;
       })
-      .catch(console.log);
+      .catch(() => this.notification.error( 'Error', 'Getting the Station train'));
     }
   }
 
   setStationTo(station:StationList) {
-    console.log('Selecting:', station);
     this.currentStation = station;
     this.getStationTrain(station);
   }
 
   getStationTrain(station) {
-    console.log('Get the station', station);
+    const pleaseWait = this.notification.warn( 'Loading', '');
     this.componentService.getStationTrain(station)
     .then((data) => {
       this.trainList = data;
+      this.notification.remove(pleaseWait.id);
     })
-    .catch(console.log);
+    .catch(() => this.notification.error( 'Error', 'Getting the Station train'));
   }
 }

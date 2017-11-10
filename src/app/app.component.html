@@ -15,9 +15,10 @@
     </div>
   </div>
   <div class="col-xs-8">
-    <span *ngIf="!trainList"><i class="text-danger fa fa-ban"></i>No Train comming soon</span>
+    <span *ngIf="!trainList"><i class="text-danger fa fa-ban"></i> No Train comming soon</span>
     <div class="row" *ngFor="let train of trainList">
       {{train.Origin}} -> {{train.Destination}} : <span *ngIf='train.Expdepart == "00:00"'>Stoping</span> <span *ngIf='train.Expdepart != "00:00"'>{{train.Expdepart}}</span>
     </div>
   </div>
 </div>
+<simple-notifications [options]="options"></simple-notifications>
