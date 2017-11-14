@@ -5,20 +5,25 @@
 <div>
   You made it here! Now time to leave (Catch your train ;)
 </div>
-<h2 *ngIf="currentStation">Current station: {{currentStation.StationDesc}}</h2>
-<h2 *ngIf="!currentStation">Select your station</h2>
+<div (click)="getStationTrain()">
+  <h2 *ngIf="currentStationList.length">Refresh</h2>
+  <h2 *ngIf="!currentStationList.length">Select your station</h2>
+</div>
 <div class="row">
   <div class="col-xs-4">
     <div class="row" *ngFor="let station of stationList">
-      <span (click)="setStationTo(station)">{{station.StationDesc}}</span>
+      <span (click)="addRemoveStation(station)">{{station.StationDesc}}</span>
     </div>
   </div>
   <div class="col-xs-8">
-    <span *ngIf="!trainList || trainList.length === 0"><i class="text-danger fa fa-ban"></i> No Train comming soon</span>
-    <div class="row" *ngFor="let train of trainList">
-      <span *ngIf='train.Expdepart == "00:00"'>Stoping </span>
-      <span *ngIf='train.Expdepart != "00:00"'>{{train.Expdepart}} </span>
-      : {{train.Origin}} -> {{train.Destination}}
+    <div *ngFor="let trainList of currentStationTrainlist; let i = index">
+      <h4 (click)="addRemoveStation(currentStationList[i])"><i class="text-danger fa fa-ban"></i> {{currentStationList[i].StationDesc}}</h4>
+      <span *ngIf="!trainList || trainList.length === 0"><i class="text-danger fa fa-ban"></i> No Train comming soon</span>
+      <div class="row" *ngFor="let train of trainList">
+        <span *ngIf='train.Expdepart == "00:00"'>Stoping </span>
+        <span *ngIf='train.Expdepart != "00:00"'>{{train.Expdepart}} </span>
+        : {{train.Origin}} -> {{train.Destination}}
+      </div>
     </div>
   </div>
 </div>

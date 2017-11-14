@@ -13,8 +13,23 @@ import { StationList, StationTrain } from '../classDefinition';
 })
 export class AppComponent implements OnInit {
   stationList: StationList[];
-  currentStation: StationList;
-  trainList: StationTrain[];
+  currentStationList: StationList[] = [{
+    StationAlias: "",
+    StationCode: "ARKLW",
+    StationDesc: "Arklow",
+    StationId: undefined,
+    StationLatitude: undefined,
+    StationLongitude: undefined
+  },
+  {
+    StationAlias: "",
+    StationCode: "SKILL",
+    StationDesc: "Shankill",
+    StationId: undefined,
+    StationLatitude: undefined,
+    StationLongitude: undefined,
+  }];
+  currentStationTrainlist: Array<StationTrain[]>;
 
   public options = {
     position: ["top", "left"],
@@ -34,25 +49,27 @@ export class AppComponent implements OnInit {
     })
     .catch(() => this.notification.error( 'Error', 'Getting the Station list'));
 
-    if (this.currentStation) {
-      this.componentService.getStationTrain(this.currentStation)
-      .then((data) => {
-        this.trainList = data;
-      })
-      .catch(() => this.notification.error( 'Error', 'Getting the Station train'));
+    if (this.currentStationList && this.currentStationList.length > 0) {
+      this.getStationTrain();
     }
   }
 
-  setStationTo(station:StationList) {
-    this.currentStation = station;
-    this.getStationTrain(station);
+  addRemoveStation(addRemove:StationList) {
+    const initLength = this.currentStationTrainlist.length;
+    console.log('Pop-in-out:', addRemove, initLength);
+    this.currentStationList = this.currentStationList.filter(item => item.StationCode !== addRemove.StationCode);
+    if(this.currentStationList.length === initLength) { // Not found so add it.
+      this.currentStationList.push(addRemove);
+    }
+    this.getStationTrain();
   }
 
-  getStationTrain(station) {
+  getStationTrain() {
     const pleaseWait = this.notification.warn( 'Loading', '');
-    this.componentService.getStationTrain(station)
+    this.currentStationTrainlist = [];
+    Promise.all(this.currentStationList.map(station => this.componentService.getStationTrain(station)))
     .then((data) => {
-      this.trainList = data;
+      this.currentStationTrainlist = data;
       this.notification.remove(pleaseWait.id);
     })
     .catch(() => {
