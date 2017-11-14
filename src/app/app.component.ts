@@ -77,4 +77,13 @@ export class AppComponent implements OnInit {
       this.notification.error( 'Error', 'Getting the Station train');
     });
   }
+
+  isStationSelected(code) {
+    // this should be in a factory / service
+    for (let i = 0; i < this.currentStationList.length; i++) {
+        if(this.currentStationList[i].StationCode === code) {
+            return "bg-success";
+        }
+    }
+  }
 }

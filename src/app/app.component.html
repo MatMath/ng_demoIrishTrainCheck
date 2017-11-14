@@ -12,7 +12,7 @@
 <div class="row">
   <div class="col-xs-4">
     <div class="row" *ngFor="let station of stationList">
-      <span (click)="addRemoveStation(station)">{{station.StationDesc}}</span>
+      <span (click)="addRemoveStation(station)" [ngClass]="isStationSelected(station.StationCode)">{{station.StationDesc}}</span>
     </div>
   </div>
   <div class="col-xs-8">
