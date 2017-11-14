@@ -11,9 +11,9 @@ Based on API Irish Rail API: http://api.irishrail.ie/realtime/
 - Add a auto complete form selector.
 
 ## Development server
-To run it we need a Server to do the API call & the frontend.
-run $ npm run server -> will get the node API on port 3002.
-Run $ ng serve -> for a dev server. Navigate to `http://localhost:4200/`.
+- To run it we need a Server to do the API call & the frontend.
+- run $ npm run server -> will get the node API on port 3002.
+- Run $ ng serve -> for a dev server. Navigate to `http://localhost:4200/`.
 
 ## Build
 Run `ng build --prod`
@@ -22,8 +22,9 @@ Run `ng build --prod`
 - Install forever
 - Import the respository
 - $ npm install
+- $ change the URL into src/app/config.ts
 - $ ng build --prod
 - $ forever start -o out.log -e err.log bin/www
 
 ## Test
-Well The UI still change a lot... but I should.
+Not yet, in progress. 
